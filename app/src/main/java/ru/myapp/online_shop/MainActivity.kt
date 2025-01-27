@@ -2,12 +2,11 @@ package ru.myapp.online_shop
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.myapp.online_shop.ViewModel.MainViewModel
 import ru.myapp.online_shop.activity.BaseActivity
+import ru.myapp.online_shop.adapter.BestSellerAdapter
 import ru.myapp.online_shop.adapter.CategoryAdapter
 import ru.myapp.online_shop.databinding.ActivityMainBinding
 
@@ -22,7 +21,19 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         initCategories()
+        initBestSeller()
 
+    }
+
+    private fun initBestSeller() {
+        binding.progressBarBestSeller.visibility = View.VISIBLE
+        viewModel.bestSeller.observe(this, Observer {
+            binding.viewBestSeller.layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+            binding.viewBestSeller.adapter = BestSellerAdapter(it)
+            binding.progressBarBestSeller.visibility = View.GONE
+
+        })
     }
 
     private fun initCategories() {

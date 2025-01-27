@@ -65,7 +65,7 @@ class CategoryAdapter(val items: MutableList<CategoryModel>) :
         holder.binding.root.setOnClickListener {
             if (position != RecyclerView.NO_POSITION) {
                 lastSelectedPosition = selectedPosition
-                selectedPosition = position
+                selectedPosition = holder.adapterPosition
                 notifyItemChanged(lastSelectedPosition)
                 notifyItemChanged(selectedPosition)
             }
