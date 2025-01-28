@@ -1,21 +1,50 @@
 package ru.myapp.online_shop.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import ru.myapp.online_shop.R
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import ru.myapp.online_shop.ViewModel.MainViewModel
+import ru.myapp.online_shop.adapter.ListItemsAdapter
+import ru.myapp.online_shop.databinding.ActivityListItemsBinding
 
-class ListItemsActivity : AppCompatActivity() {
+class ListItemsActivity : BaseActivity() {
+
+    private lateinit var binding: ActivityListItemsBinding
+    private val viewModel = MainViewModel()
+    private var id: String = ""
+    private var title: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_list_items)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityListItemsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        getBundle()
+        initList()
+
+    }
+
+    private fun initList() {
+        binding.apply {
+            progressBar.visibility = View.VISIBLE
+            viewModel.loadItems(id).observe(this@ListItemsActivity, Observer{
+                listView.layoutManager =
+                    LinearLayoutManager(this@ListItemsActivity, LinearLayoutManager.VERTICAL, false)
+
+                listView.adapter = ListItemsAdapter(it)
+                progressBar.visibility = View.GONE
+            })
+
+            backBtn.setOnClickListener { finish() }
         }
+    }
+
+    private fun getBundle() {
+        id = intent.getStringExtra("id")!!
+        title = intent.getStringExtra("title")!!
+
+        binding.categoryTxt.text = title
     }
 }
