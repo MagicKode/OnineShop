@@ -122,7 +122,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/descriptionTxt"
+                android:id="@+id/sizeList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -133,8 +133,8 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
+                android:id="@+id/descriptionTxt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="TextView" />

@@ -1,9 +1,11 @@
 package ru.myapp.online_shop.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import ru.myapp.online_shop.activity.DetailActivity
 import ru.myapp.online_shop.databinding.ViewholderBestSellerBinding
 import ru.myapp.online_shop.model.ItemsModel
 
@@ -34,6 +36,12 @@ class BestSellerAdapter(val items: MutableList<ItemsModel>) :
         Glide.with(holder.itemView.context)
             .load(items[position].logo)
             .into(holder.binding.logo)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+            intent.putExtra("pbject", items[position])
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = items.size
